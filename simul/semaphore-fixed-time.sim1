@@ -1,0 +1,45 @@
+<circuit version="1.1.0-SR2" rev="260312" stepSize="1000000" stepsPS="1000000" NLsteps="100000" reaStep="1000000" animate="0" >
+
+<item itemtype="Subcircuit" CircId="Uno-4" mainComp="false" Show_id="true" Show_Val="false" Pos="-188,-160" rotation="0" hflip="1" vflip="1" label="Arduino Uno R3" idLabPos="0,-20.5775" labelrot="0" valLabPos="-16,20" valLabRot="0" Logic_Symbol="false">
+<mainCompProps MainCompId="mega328-109" Frequency="16 MHz" Program="../code/semaphore-fixed-time/build/arduino.avr.uno/semaphore-fixed-time.ino.hex" Auto_Load="true" saveEepr="true" MainMcu="true" SerialMon="-1" />
+</item>
+
+<item itemtype="Resistor" CircId="Resistor-7" mainComp="false" ShowProp="Resistance" Show_id="false" Show_Val="true" Pos="-316,-140" rotation="0" hflip="1" vflip="1" label="Resistor-7" idLabPos="-16,-24" labelrot="0" valLabPos="-16,6" valLabRot="0" Resistance="220 Ω" />
+
+<item itemtype="Resistor" CircId="Resistor-9" mainComp="false" ShowProp="Resistance" Show_id="false" Show_Val="true" Pos="-316,-112" rotation="0" hflip="1" vflip="1" label="Resistor-9" idLabPos="-16,-24" labelrot="0" valLabPos="-16,6" valLabRot="0" Resistance="220 Ω" />
+
+<item itemtype="Resistor" CircId="Resistor-12" mainComp="false" ShowProp="Resistance" Show_id="false" Show_Val="true" Pos="-316,-88" rotation="0" hflip="1" vflip="1" label="Resistor-12" idLabPos="-16,-24" labelrot="0" valLabPos="-16,6" valLabRot="0" Resistance="220 Ω" />
+
+<item itemtype="Led" CircId="Led-21" mainComp="false" ShowProp="Color" Show_id="false" Show_Val="true" Pos="-364,-140" rotation="0" hflip="-1" vflip="1" label="RED" idLabPos="-5.95948,-28.5639" labelrot="0" valLabPos="-4.59033,-25.6387" valLabRot="0" Color="Red" Grounded="false" Threshold="1.8 V" MaxCurrent="30 mA" Resistance="0.6 Ω" />
+
+<item itemtype="Led" CircId="Led-23" mainComp="false" ShowProp="Color" Show_id="false" Show_Val="true" Pos="-364,-112" rotation="0" hflip="-1" vflip="1" label="Led-23" idLabPos="-16,-24" labelrot="0" valLabPos="-9.73587,-21.6117" valLabRot="0" Color="Yellow" Grounded="false" Threshold="2.4 V" MaxCurrent="30 mA" Resistance="0.6 Ω" />
+
+<item itemtype="Led" CircId="Led-24" mainComp="false" ShowProp="Color" Show_id="false" Show_Val="true" Pos="-364,-88" rotation="0" hflip="-1" vflip="1" label="Led-24" idLabPos="-16,-24" labelrot="0" valLabPos="-6.82752,6.35315" valLabRot="0" Color="Green" Grounded="false" Threshold="3.5 V" MaxCurrent="30 mA" Resistance="0.6 Ω" />
+
+<item itemtype="Node" CircId="Node-32" mainComp="false" Pos="-384,-88" />
+
+<item itemtype="Node" CircId="Node-35" mainComp="false" Pos="-384,-112" />
+
+<item itemtype="Connector" uid="Connector-9" startpinid="Uno-4-4" endpinid="Resistor-9-rPin" pointList="-180,-112,-300,-112" />
+
+<item itemtype="Connector" uid="Connector-36" startpinid="Resistor-7-lPin" endpinid="Led-21-lPin" pointList="-332,-140,-348,-140" />
+
+<item itemtype="Connector" uid="Connector-46" startpinid="Resistor-12-lPin" endpinid="Led-24-lPin" pointList="-332,-88,-348,-88" />
+
+<item itemtype="Connector" uid="Connector-54" startpinid="Resistor-7-rPin" endpinid="Uno-4-2" pointList="-300,-140,-204,-140,-204,-128,-180,-128" />
+
+<item itemtype="Connector" uid="Connector-21" startpinid="Uno-4-7" endpinid="Resistor-12-rPin" pointList="-180,-88,-300,-88" />
+
+<item itemtype="Connector" uid="Connector-72" startpinid="Led-24-rPin" endpinid="Node-32-1" pointList="-380,-88,-384,-88" />
+
+<item itemtype="Connector" uid="Connector-74" startpinid="Node-32-2" endpinid="Uno-4-GND2" pointList="-384,-88,-384,-24,-180,-24" />
+
+<item itemtype="Connector" uid="Connector-84" startpinid="Led-21-rPin" endpinid="Node-35-1" pointList="-380,-140,-384,-140,-384,-112" />
+
+<item itemtype="Connector" uid="Connector-85" startpinid="Led-23-rPin" endpinid="Node-35-0" pointList="-380,-112,-384,-112" />
+
+<item itemtype="Connector" uid="Connector-86" startpinid="Node-35-2" endpinid="Node-32-0" pointList="-384,-112,-384,-88" />
+
+<item itemtype="Connector" uid="Connector-99" startpinid="Resistor-9-lPin" endpinid="Led-23-lPin" pointList="-332,-112,-348,-112" />
+
+</circuit>

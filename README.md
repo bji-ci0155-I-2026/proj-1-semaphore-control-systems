@@ -104,11 +104,8 @@ Ver video de simulación en SimulIDE: [semaphore-interrupt-button-vehicle-simul.
 
 Códigos fuente:
 - Semáforo vehicular: [semaphore-interrupt-button-vehicle.ino](./code/semaphore-interrupt-button-vehicle/semaphore-interrupt-button-vehicle.ino).
-- Semáforo peatonal: [semaphore-interrupt-button-peatonal.ino](./code/semaphore-interrupt-button-peatonal/semaphore-interrupt-button-peatonal.ino).
 
 Ver video de prueba vehicular: [semaphore-interrupt-botton.mp4](./media/semaphore-interrupt-botton.mp4).
-
-TODO: Proveer un esquemático con las conexiones realizadas.
 
 ---
 
@@ -170,6 +167,10 @@ Ver video de simulación en SimulIDE: [semaphore-interrupt-sensor-simul.mp4](./m
 Código fuente: [semaphore-interrupt-sensor.ino](./code/semaphore-interrupt-sensor/semaphore-interrupt-sensor.ino).
 
 Ver video de prueba: [semaphore-interrupt-sensor.mp4](./media/semaphore-interrupt-sensor.mp4).
+
+## Diferencias entre los 3 tipos de semaforo
+
+TODO: tabla comparativa de los 3 tipos de semaforo.
 
 ---
 

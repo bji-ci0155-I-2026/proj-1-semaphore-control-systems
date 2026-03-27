@@ -46,11 +46,14 @@ Seguidamente se especifican los casos de uso, ventajas y desventajas de los sem�
 
 ### Descripción de la arquitectura
 
-TODO: Indicar la arquitectura utilizada, incluyendo:
-- Entradas
-- Salidas
-- Unidad de procesamiento central
-- Comunicación
+La arquitectura implementada para este semáforo de tiempo fijo es la más sencilla de todas:
+- **Entradas**: Ninguna. El semáforo opera de manera autónoma utilizando temporizadores explícitos (`delay()`), sin entradas del entorno (lazo abierto).
+- **Salidas**: Tres (3) salidas digitales del microcontrolador hacia los leds de cada color del semaforo:
+  - `Pin 2`: LED Rojo (estado de parada).
+  - `Pin 4`: LED Amarillo (estado de precaución).
+  - `Pin 7`: LED Verde (estado de avance).
+- **Unidad de procesamiento central**: Arduino Uno R3 es el que ejecuta cíclicamente el bucle lógico configurando los pines de salida en HIGH y LOW mediante programación en Arduino IDE.
+- **Comunicación**: No se implementan protocolos de comunicación serial ni redes externas. El sistema solo depende de conexion a energia por cable o bateria.
 
 ### Implementación del sistema empotrado
 
@@ -70,8 +73,6 @@ Ver video de simulación en SimulIDE: [semaphore-fixed-time-simul.mp4](./media/s
 Código fuente: [semaphore-fixed-time.ino](./code/semaphore-fixed-time/semaphore-fixed-time.ino).
 
 Ver video de prueba: [semaphore-fixed-time.mp4](./media/semaphore-fixed-time.mp4).
-
-TODO: Proveer un esquemático con las conexiones realizadas.
 
 ---
 

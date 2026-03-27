@@ -172,6 +172,16 @@ Ver video de prueba: [semaphore-interrupt-sensor.mp4](./media/semaphore-interrup
 
 TODO: tabla comparativa de los 3 tipos de semaforo.
 
+Van a haber 3 niveles de puntos, segun colores:
+- Rojo: es malo o dificil.
+- Amarillo: es regular o intermedio.
+- Verde: es bueno o facil.
+
+| **Función / Atributo** | **Semáforo tiempo fijo** | **Semáforo con pulsador** | **Semáforo inteligente con sensores** |
+| --- | --- | --- | --- |
+| **Objetivo principal** | Coordinar flujo vehicular | Atender demanda peatonal puntual accionable | Atenter demanda peatonal por proximidad |
+
+
 ---
 
 ## Referencias
@@ -190,3 +200,5 @@ TODO: tabla comparativa de los 3 tipos de semaforo.
 [5] Arduino Project Hub. "Ultrasonic sensor with Arduino - complete guide." Disponible en: https://projecthub.arduino.cc/lucasfernando/ultrasonic-sensor-with-arduino-complete-guide-284faf
 
 [6] arashjafari/audio-to-arduino. Disponible en: https://github.com/arashjafari/audio-to-arduino
+
+[7] https://bffrepositorio.unal.edu.co/server/api/core/bitstreams/3e7a306a-17c3-47db-9806-9525e2123f52/content

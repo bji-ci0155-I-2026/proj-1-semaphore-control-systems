@@ -91,22 +91,7 @@ Según el blog [1] hay semáforos peatonales que se activan sólo y cuando una p
 - Suelen emitir una señal de sonido para personas con discapacidad visual.
 - Suelen incluir el tiempo de espera en el semáforo peatonal.
 
-**Casos de uso:**
-- Cruces peatonales en vías con bajo a moderado volumen vehicular donde los peatones cruzan esporádicamente.
-- Zonas donde no existe un flujo peatonal continuo que justifique un ciclo fijo.
-- Entornos donde se busca priorizar el tráfico vehicular salvo cuando un peatón solicita cruzar.
-
-**Ventajas:**
-- **Responde a demanda real**: el semáforo solo interrumpe el tráfico vehicular cuando un peatón lo solicita.
-- **Incluye señal sonora** (buzzer con melodía de cuenta regresiva) para personas con discapacidad visual.
-- **Mayor fluidez vehicular** que un ciclo fijo cuando la demanda peatonal es baja.
-- **Mayor seguridad para el peatón** que el semáforo de tiempo fijo, al brindar un ciclo dedicado de cruce.
-
-**Desventajas:**
-- **Requiere acción activa del usuario**: el peatón debe presionar el botón; si no lo hace, no obtiene el paso.
-- **No se adapta a flujos peatonales continuos**: en zonas de alta afluencia puede generar cuellos de botella.
-- **Sin coordinación con otras intersecciones**: opera de forma completamente aislada.
-- **Tiempos de espera variables**: el peatón puede esperar hasta que finalice el ciclo de retardo interno.
+TODO: Listar diferencias y ventajas/desventajas de este tipo de semáforo.
 
 ### Descripción de la arquitectura
 
@@ -174,23 +159,7 @@ Para garantizar un rendimiento confiable, estos sistemas emplean **algoritmos de
 *   **Pantallas de cuenta regresiva:** Incluyen indicadores LED que informan el tiempo restante para cruzar, lo que reducen el pánico en peatones y ayuda a los conductores a ajustar su velocidad. 
 *   **Ventajas operativas:** Funcionan de forma automatizada las 24 horas del día. Además, permiten la **configuración remota** de los parámetros y cuentan con componentes duraderos con protección contra sobretensiones, lo que reduce los costos y la frecuencia de mantenimiento.
 
-**Casos de uso:**
-- Intersecciones con alto flujo peatonal variable donde no se puede depender de que el peatón presione un botón.
-- Zonas donde se busca mayor automatización y menor dependencia de la acción del usuario.
-- Entornos que requieren detección continua de presencia peatonal para una respuesta proactiva.
-
-**Ventajas:**
-- **Detección automática**: identifica peatones sin que estos tengan que realizar ninguna acción (presionar botón).
-- **Monitoreo en tiempo real**: el sensor ultrasónico mide continuamente la distancia y activa el cruce al detectar proximidad.
-- **Señal sonora incluida** (buzzer con melodía de cuenta regresiva) para personas con discapacidad visual.
-- **Depuración integrada**: comunicación serial (9600 baud) para verificar lecturas del sensor durante mantenimiento.
-- **Botón de respaldo**: el `Pin 12` conserva un pulsador manual como entrada alternativa de contingencia.
-
-**Desventajas:**
-- **Mayor costo y complejidad** de instalación respecto a los sistemas anteriores (sensor ultrasónico adicional).
-- **Susceptible a falsas detecciones**: objetos, animales o reflejos pueden activar el ciclo peatonal innecesariamente.
-- **Requiere calibración del umbral de distancia** (actualmente 5 cm, configurado para demostración/prueba en laboratorio; en un entorno real se recomienda un umbral de 50–100 cm) según el entorno de instalación.
-- **Mayor consumo energético**: el sensor ultrasónico dispara pulsos continuos y la comunicación serial permanece activa.
+TODO: Listar diferencias y ventajas/desventajas de este tipo de semáforo.
 
 ### Descripción de la arquitectura
 
@@ -229,6 +198,8 @@ Ver video de prueba: [semaphore-interrupt-sensor.mp4](./media/semaphore-interrup
 
 ## Diferencias entre los 3 tipos de semaforo
 
+TODO: tabla comparativa de los 3 tipos de semaforo.
+
 Van a haber 3 niveles de puntos, segun colores:
 - 🔴 Rojo: es malo.
 - 🟡 Amarillo: es regular.
@@ -236,20 +207,20 @@ Van a haber 3 niveles de puntos, segun colores:
 
 | **Función / Atributo** | **Semáforo tiempo fijo** | **Semáforo con pulsador** | **Semáforo inteligente con sensores** |
 | --- | --- | --- | --- |
-| **Objetivo principal** | Coordinar flujo vehicular | Permitir cruce peatonal seguro bajo demanda manual | Detectar peatones automáticamente y optimizar el cruce |
-| **Adaptabilidad a variaciones** | 🔴 Baja | 🟡 Media (responde a demanda puntual) | 🟢 Alta (detección continua en tiempo real) |
-| **Respuesta a picos de demanda** | 🔴 Mala | 🟡 Parcial (solo cuando el peatón pulsa) | 🟢 Buena (detección automática sin acción del usuario) |
-| **Necesidad de detección** | N/A | Botón pulsador manual (Pin 10) | Sensor ultrasónico HC-SR04 (Pins 10 y 13) + botón de respaldo (Pin 12) |
-| **Complejidad de instalación** | 🟢 Baja | 🟡 Media (botón + buzzer) | 🔴 Alta (sensor ultrasónico + buzzer + comunicación serial) |
-| **Costo inicial** | 🟢 Bajo | 🟡 Medio | 🔴 Alto |
-| **Costo de operación y mantenimiento** | 🟢 Bajo | 🟡 Bajo-Medio | 🔴 Alto (calibración y mantenimiento del sensor) |
-| **Facilidad de programación** | 🟢 Fácil | 🟡 Media | 🔴 Compleja (cálculo de distancia, umbral, depuración serial) |
-| **Coordinación entre intersecciones** | 🟢 Buena | 🔴 Baja / No implementada | 🟡 Posible mediante comunicación serial con sistema externo |
-| **Impacto en demora promedio** | 🟡 Puede ser alto si mal dimensionado | 🟡 Variable según frecuencia de uso | 🟢 Bajo (ciclo se activa solo cuando hay peatón) |
-| **Seguridad (colisiones en ángulo)** | 🟡 Buena si fases bien diseñadas | 🟢 Buena (ciclo seguro al activarse) | 🟢 Muy buena (detección automática reduce omisiones) |
-| **Consumo energético** | 🟢 Bajo | 🟡 Medio (buzzer activo durante ciclo) | 🔴 Alto (sensor disparando continuamente + serial activo) |
-| **Mejor caso de uso** | Corredores con demanda estable | Cruces peatonales con bajo tráfico peatonal | Cruces con alta densidad peatonal variable |
-| **Limitaciones clave** | 🔴 Rigidez ante cambios | 🔴 Requiere acción activa del peatón | 🔴 Costo, complejidad y riesgo de falsas detecciones |
+| **Objetivo principal** | Coordinar flujo vehicular | TODO | TODO |
+| **Adaptabilidad a variaciones** | 🔴 Baja | TODO | TODO |
+| **Respuesta a picos de demanda** | 🔴 Mala | TODO | TODO |
+| **Necesidad de detección** | N/A | TODO | TODO |
+| **Complejidad de instalación** | 🟢 Baja | TODO | TODO |
+| **Costo inicial** | 🟢 Bajo | TODO | TODO |
+| **Costo de operación y mantenimiento** | 🟢 Bajo | TODO | TODO |
+| **Facilidad de programación** | 🟢 Fácil | TODO | TODO |
+| **Coordinación entre intersecciones** | 🟢 Buena | TODO | TODO |
+| **Impacto en demora promedio** | 🟡 Puede ser alto si mal dimensionado | TODO | TODO |
+| **Seguridad (colisiones en ángulo)** | 🟡 Buena si fases bien diseñadas | TODO | TODO |
+| **Consumo energético** | 🟢 Bajo | TODO | TODO |
+| **Mejor caso de uso** | Corredores con demanda estable | TODO | TODO |
+| **Limitaciones clave** | 🔴 Rigidez ante cambios | TODO | TODO |
 
 ---
 

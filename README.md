@@ -227,7 +227,7 @@ Van a haber 3 niveles de puntos, segun colores:
 ## Referencias
 
 > **Aclaración sobre el uso de la Inteligencia Artificial:**
-> Para la estructuración, corrección de estilo y formato Markdown de este documento, se utilizó como asistencia un asistente de desarrollo con Inteligencia Artificial.
+> Para la estructuración, corrección de estilo y formato Markdown de este documento, se utilizó como asistencia un asistente de desarrollo con Inteligencia Artificial y una sesión de agente de GitHub Copilot, específicamente para la descripción de la arquitectura de los semáforos.
 
 [1] K. Behrens, "Do Crosswalk Buttons Actually Work?," Pelco, 15-mar-2026. [En línea]. Disponible: https://www.pelcoinc.com/blog/do-crosswalk-buttons-actually-work. [Accedido: 21-mar-2026].
 

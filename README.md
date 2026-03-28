@@ -91,7 +91,28 @@ Según el blog [1] hay semáforos peatonales que se activan sólo y cuando una p
 - Suelen emitir una señal de sonido para personas con discapacidad visual.
 - Suelen incluir el tiempo de espera en el semáforo peatonal.
 
-TODO: Listar diferencias y ventajas/desventajas de este tipo de semáforo.
+Ahora se especifican las diferencias, ventajas y desventajas de los semáforos con interrupción por botón [1][8]:
+
+**Diferencias respecto al de tiempo fijo:**
+
+- Introduce interacción del usuario (botón).
+- No sigue un ciclo completamente automático.
+- Responde a demanda puntual en lugar de tiempo predefinido.
+
+**Ventajas:**
+
+- **Activación bajo demanda:** el sistema solo cambia cuando un peatón lo solicita, reduciendo interrupciones innecesarias al tráfico vehicular.
+- **Mejora la seguridad peatonal:** proporciona un cruce controlado, disminuyendo el riesgo de accidentes.
+- **Mayor eficiencia** que el tiempo fijo en zonas con baja demanda peatonal, al evitar ciclos innecesarios.
+- **Costo moderado:** requiere únicamente un pulsador e implementación de interrupciones, sin necesidad de sensores complejos.
+
+**Desventajas:**
+
+- **Dependencia del usuario:** si el peatón no presiona el botón, el sistema no se activa.
+- **Tiempo de espera:** puede existir un retardo antes de habilitar el cruce peatonal.
+- **No detecta automáticamente la demanda:** menor eficiencia comparado con sistemas con sensores.
+- **Adaptabilidad limitada:** no considera condiciones dinámicas del tráfico vehicular.
+
 
 ### Descripción de la arquitectura
 
@@ -159,7 +180,29 @@ Para garantizar un rendimiento confiable, estos sistemas emplean **algoritmos de
 *   **Pantallas de cuenta regresiva:** Incluyen indicadores LED que informan el tiempo restante para cruzar, lo que reducen el pánico en peatones y ayuda a los conductores a ajustar su velocidad. 
 *   **Ventajas operativas:** Funcionan de forma automatizada las 24 horas del día. Además, permiten la **configuración remota** de los parámetros y cuentan con componentes duraderos con protección contra sobretensiones, lo que reduce los costos y la frecuencia de mantenimiento.
 
-TODO: Listar diferencias y ventajas/desventajas de este tipo de semáforo.
+Resumiendo sus diferencias, ventajas y desventajas [3][8]: 
+
+**Diferencias respecto a los semáforos anteriores:**
+
+- Usa sensores en lugar de interacción manual.
+- Toma decisiones automáticas basadas en datos en tiempo real.
+- Puede implementar lógica adaptativa o inteligente.
+
+
+**Ventajas:**
+
+- **Alta adaptabilidad:** ajusta los tiempos en función de la demanda en tiempo real.
+- **Optimización del flujo vehicular:** reduce demoras y congestión al minimizar tiempos muertos.
+- **Mayor seguridad:** detecta presencia de peatones y puede generar alertas preventivas.
+- **Automatización completa:** no depende de la interacción del usuario.
+- **Escalabilidad:** puede integrarse con sistemas de control urbano e IoT.
+
+**Desventajas:**
+
+- **Alto costo inicial:** requiere sensores, procesamiento adicional y posible infraestructura de comunicación.
+- **Mayor complejidad técnica:** implementación, calibración y programación más avanzadas.
+- **Mantenimiento especializado:** los sensores pueden fallar o requerir ajustes periódicos.
+- **Posibles errores de detección:** falsos positivos o negativos afectan el rendimiento del sistema.
 
 ### Descripción de la arquitectura
 
@@ -207,20 +250,20 @@ Van a haber 3 niveles de puntos, segun colores:
 
 | **Función / Atributo** | **Semáforo tiempo fijo** | **Semáforo con pulsador** | **Semáforo inteligente con sensores** |
 | --- | --- | --- | --- |
-| **Objetivo principal** | Coordinar flujo vehicular | TODO | TODO |
-| **Adaptabilidad a variaciones** | 🔴 Baja | TODO | TODO |
-| **Respuesta a picos de demanda** | 🔴 Mala | TODO | TODO |
-| **Necesidad de detección** | N/A | TODO | TODO |
-| **Complejidad de instalación** | 🟢 Baja | TODO | TODO |
-| **Costo inicial** | 🟢 Bajo | TODO | TODO |
-| **Costo de operación y mantenimiento** | 🟢 Bajo | TODO | TODO |
-| **Facilidad de programación** | 🟢 Fácil | TODO | TODO |
-| **Coordinación entre intersecciones** | 🟢 Buena | TODO | TODO |
-| **Impacto en demora promedio** | 🟡 Puede ser alto si mal dimensionado | TODO | TODO |
-| **Seguridad (colisiones en ángulo)** | 🟡 Buena si fases bien diseñadas | TODO | TODO |
-| **Consumo energético** | 🟢 Bajo | TODO | TODO |
-| **Mejor caso de uso** | Corredores con demanda estable | TODO | TODO |
-| **Limitaciones clave** | 🔴 Rigidez ante cambios | TODO | TODO |
+| **Objetivo principal** | Coordinar flujo vehicular | Permitir cruce peatonal bajo demanda | Optimizar tráfico en tiempo real |
+| **Adaptabilidad a variaciones** | 🔴 Baja | 🟡 Media | 🟢 Alta |
+| **Respuesta a picos de demanda** | 🔴 Mala | 🟡 Regular | 🟢 Buena |
+| **Necesidad de detección** | N/A | 🟡 Manual (botón) | 🟢 Automática (sensores) |
+| **Complejidad de instalación** | 🟢 Baja | 🟡 Media | 🔴 Alta |
+| **Costo inicial** | 🟢 Bajo | 🟡 Medio | 🔴 Alto |
+| **Costo de operación y mantenimiento** | 🟢 Bajo | 🟡 Medio | 🔴 Alto |
+| **Facilidad de programación** | 🟢 Fácil | 🟡 Media (interrupciones) | 🔴 Compleja |
+| **Coordinación entre intersecciones** | 🟢 Buena | 🟡 Limitada | 🟢 Alta |
+| **Impacto en demora promedio** | 🟡 Puede ser alto si mal dimensionado | 🟡 Moderado | 🟢 Bajo |
+| **Seguridad (colisiones en ángulo)** | 🟡 Buena si fases bien diseñadas | 🟢 Alta para peatones | 🟢 Muy alta |
+| **Consumo energético** | 🟢 Bajo | 🟡 Medio | 🔴 Alto |
+| **Mejor caso de uso** | Corredores con demanda estable | Cruces peatonales ocasionales | Intersecciones urbanas complejas |
+| **Limitaciones clave** | 🔴 Rigidez ante cambios | 🟡 Dependencia del usuario | 🔴 Complejidad y costo |
 
 ---
 
@@ -242,3 +285,5 @@ Van a haber 3 niveles de puntos, segun colores:
 [6] arashjafari/audio-to-arduino. Disponible en: https://github.com/arashjafari/audio-to-arduino
 
 [7] S. Cadavid Agudelo, “Criterios para justificar semáforos de tiempo fijo,” M.Sc. thesis, Escuela de Ingeniería Civil, Facultad de Minas, Universidad Nacional de Colombia, Medellín, Colombia, 2016. [En línea]. Disponible: https://bffrepositorio.unal.edu.co/server/api/core/bitstreams/3e7a306a-17c3-47db-9806-9525e2123f52/content
+
+[8] Federal Highway Administration (FHWA), "Traffic Signal Timing Manual", 2008. Disponible en: https://ops.fhwa.dot.gov/publications/fhwahop08024/

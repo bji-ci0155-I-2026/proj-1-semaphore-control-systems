@@ -95,11 +95,17 @@ TODO: Listar diferencias y ventajas/desventajas de este tipo de semáforo.
 
 ### Descripción de la arquitectura
 
-TODO: Indicar la arquitectura utilizada, incluyendo:
-- Entradas
-- Salidas
-- Unidad de procesamiento central
-- Comunicación
+La arquitectura del semáforo peatonal con interrupción por botón es la siguiente:
+
+- **Entradas**: Una (1) entrada digital hacia el microcontrolador:
+  - `Pin 10` (BUTTON): Pulsador/botón que el peatón presiona para solicitar el cruce. El microcontrolador lee su estado con `digitalRead()` en el bucle principal.
+- **Salidas**: Cuatro (4) salidas digitales del microcontrolador:
+  - `Pin 2`: LED Rojo (estado de parada vehicular / cruce peatonal activo).
+  - `Pin 4`: LED Amarillo (estado de precaución / transición).
+  - `Pin 7`: LED Verde (estado de circulación vehicular / espera peatonal).
+  - `Pin 9`: Buzzer piezoeléctrico (señal sonora de cuenta regresiva para peatones con discapacidad visual).
+- **Unidad de procesamiento central**: Arduino Uno R3 que ejecuta el bucle principal de polling sobre el botón y, al detectar la señal, invoca la rutina `allow_pedestrians()` que gestiona la secuencia de cambio de fases mediante `delay()`.
+- **Comunicación**: No se implementan protocolos de comunicación serial ni redes externas. El sistema opera de forma autónoma y solo depende de conexión a energía por cable o batería.
 
 ### Implementación del sistema empotrado
 
@@ -157,11 +163,19 @@ TODO: Listar diferencias y ventajas/desventajas de este tipo de semáforo.
 
 ### Descripción de la arquitectura
 
-TODO: Indicar la arquitectura utilizada, incluyendo:
-- Entradas
-- Salidas
-- Unidad de procesamiento central
-- Comunicación
+La arquitectura del semáforo inteligente con interrupción por sensor es la siguiente:
+
+- **Entradas**: Dos (2) entradas digitales hacia el microcontrolador:
+  - `Pin 13` (ECHO): Señal de retorno del sensor ultrasónico HC-SR04. El microcontrolador mide con `pulseIn()` el tiempo del pulso de eco para calcular la distancia al objeto/peatón.
+  - `Pin 12` (BUTTON): Pulsador/botón de respaldo para activación manual del ciclo peatonal.
+- **Salidas**: Cinco (5) salidas digitales del microcontrolador:
+  - `Pin 7`: LED Rojo (estado de parada vehicular / cruce peatonal activo).
+  - `Pin 4`: LED Amarillo (estado de precaución / transición).
+  - `Pin 2`: LED Verde (estado de circulación vehicular / espera peatonal).
+  - `Pin 6`: Buzzer piezoeléctrico (señal sonora de cuenta regresiva para peatones con discapacidad visual).
+  - `Pin 10` (TRIGGER): Pulso de disparo del sensor ultrasónico HC-SR04 (señal de 10 µs enviada para iniciar la medición de distancia).
+- **Unidad de procesamiento central**: Arduino Uno R3 que en cada iteración del bucle principal envía el pulso TRIGGER, mide el tiempo del ECHO, calcula la distancia con la fórmula `(duration × 0.0343) / 2` (donde 0.0343 cm/µs es la velocidad del sonido a temperatura ambiente y la división entre 2 corrige el trayecto de ida y vuelta del pulso ultrasónico) y, si la distancia es ≤ 5 cm (umbral de demostración; en producción se recomienda 50–100 cm), invoca la rutina `allow_pedestrians()` para gestionar la secuencia de cambio de fases.
+- **Comunicación**: Puerto serial UART a 9600 baud (mediante `Serial.begin(9600)` y `Serial.println()`) utilizado para depuración en tiempo real de las lecturas del sensor ultrasónico. No se implementan protocolos de red ni comunicación con sistemas externos.
 
 ### Implementación del sistema empotrado
 
@@ -213,7 +227,7 @@ Van a haber 3 niveles de puntos, segun colores:
 ## Referencias
 
 > **Aclaración sobre el uso de la Inteligencia Artificial:**
-> Para la estructuración, corrección de estilo y formato Markdown de este documento, se utilizó como asistencia un asistente de desarrollo con Inteligencia Artificial.
+> Para la estructuración, corrección de estilo y formato Markdown de este documento, se utilizó como asistencia un asistente de desarrollo con Inteligencia Artificial y una sesión de agente de GitHub Copilot, específicamente para la descripción de la arquitectura de los semáforos.
 
 [1] K. Behrens, "Do Crosswalk Buttons Actually Work?," Pelco, 15-mar-2026. [En línea]. Disponible: https://www.pelcoinc.com/blog/do-crosswalk-buttons-actually-work. [Accedido: 21-mar-2026].
 

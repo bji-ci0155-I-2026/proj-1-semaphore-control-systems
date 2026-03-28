@@ -91,15 +91,36 @@ Según el blog [1] hay semáforos peatonales que se activan sólo y cuando una p
 - Suelen emitir una señal de sonido para personas con discapacidad visual.
 - Suelen incluir el tiempo de espera en el semáforo peatonal.
 
-TODO: Listar diferencias y ventajas/desventajas de este tipo de semáforo.
+**Casos de uso:**
+- Cruces peatonales en vías con bajo a moderado volumen vehicular donde los peatones cruzan esporádicamente.
+- Zonas donde no existe un flujo peatonal continuo que justifique un ciclo fijo.
+- Entornos donde se busca priorizar el tráfico vehicular salvo cuando un peatón solicita cruzar.
+
+**Ventajas:**
+- **Responde a demanda real**: el semáforo solo interrumpe el tráfico vehicular cuando un peatón lo solicita.
+- **Incluye señal sonora** (buzzer con melodía de cuenta regresiva) para personas con discapacidad visual.
+- **Mayor fluidez vehicular** que un ciclo fijo cuando la demanda peatonal es baja.
+- **Mayor seguridad para el peatón** que el semáforo de tiempo fijo, al brindar un ciclo dedicado de cruce.
+
+**Desventajas:**
+- **Requiere acción activa del usuario**: el peatón debe presionar el botón; si no lo hace, no obtiene el paso.
+- **No se adapta a flujos peatonales continuos**: en zonas de alta afluencia puede generar cuellos de botella.
+- **Sin coordinación con otras intersecciones**: opera de forma completamente aislada.
+- **Tiempos de espera variables**: el peatón puede esperar hasta que finalice el ciclo de retardo interno.
 
 ### Descripción de la arquitectura
 
-TODO: Indicar la arquitectura utilizada, incluyendo:
-- Entradas
-- Salidas
-- Unidad de procesamiento central
-- Comunicación
+La arquitectura del semáforo peatonal con interrupción por botón es la siguiente:
+
+- **Entradas**: Una (1) entrada digital hacia el microcontrolador:
+  - `Pin 10` (BUTTON): Pulsador/botón que el peatón presiona para solicitar el cruce. El microcontrolador lee su estado con `digitalRead()` en el bucle principal.
+- **Salidas**: Cuatro (4) salidas digitales del microcontrolador:
+  - `Pin 2`: LED Rojo (estado de parada vehicular / cruce peatonal activo).
+  - `Pin 4`: LED Amarillo (estado de precaución / transición).
+  - `Pin 7`: LED Verde (estado de circulación vehicular / espera peatonal).
+  - `Pin 9`: Buzzer piezoeléctrico (señal sonora de cuenta regresiva para peatones con discapacidad visual).
+- **Unidad de procesamiento central**: Arduino Uno R3 que ejecuta el bucle principal de polling sobre el botón y, al detectar la señal, invoca la rutina `allow_pedestrians()` que gestiona la secuencia de cambio de fases mediante `delay()`.
+- **Comunicación**: No se implementan protocolos de comunicación serial ni redes externas. El sistema opera de forma autónoma y solo depende de conexión a energía por cable o batería.
 
 ### Implementación del sistema empotrado
 
@@ -153,15 +174,39 @@ Para garantizar un rendimiento confiable, estos sistemas emplean **algoritmos de
 *   **Pantallas de cuenta regresiva:** Incluyen indicadores LED que informan el tiempo restante para cruzar, lo que reducen el pánico en peatones y ayuda a los conductores a ajustar su velocidad. 
 *   **Ventajas operativas:** Funcionan de forma automatizada las 24 horas del día. Además, permiten la **configuración remota** de los parámetros y cuentan con componentes duraderos con protección contra sobretensiones, lo que reduce los costos y la frecuencia de mantenimiento.
 
-TODO: Listar diferencias y ventajas/desventajas de este tipo de semáforo.
+**Casos de uso:**
+- Intersecciones con alto flujo peatonal variable donde no se puede depender de que el peatón presione un botón.
+- Zonas donde se busca mayor automatización y menor dependencia de la acción del usuario.
+- Entornos que requieren detección continua de presencia peatonal para una respuesta proactiva.
+
+**Ventajas:**
+- **Detección automática**: identifica peatones sin que estos tengan que realizar ninguna acción (presionar botón).
+- **Monitoreo en tiempo real**: el sensor ultrasónico mide continuamente la distancia y activa el cruce al detectar proximidad.
+- **Señal sonora incluida** (buzzer con melodía de cuenta regresiva) para personas con discapacidad visual.
+- **Depuración integrada**: comunicación serial (9600 baud) para verificar lecturas del sensor durante mantenimiento.
+- **Botón de respaldo**: el `Pin 12` conserva un pulsador manual como entrada alternativa de contingencia.
+
+**Desventajas:**
+- **Mayor costo y complejidad** de instalación respecto a los sistemas anteriores (sensor ultrasónico adicional).
+- **Susceptible a falsas detecciones**: objetos, animales o reflejos pueden activar el ciclo peatonal innecesariamente.
+- **Requiere calibración del umbral de distancia** (actualmente 5 cm, configurado para demostración/prueba en laboratorio; en un entorno real se recomienda un umbral de 50–100 cm) según el entorno de instalación.
+- **Mayor consumo energético**: el sensor ultrasónico dispara pulsos continuos y la comunicación serial permanece activa.
 
 ### Descripción de la arquitectura
 
-TODO: Indicar la arquitectura utilizada, incluyendo:
-- Entradas
-- Salidas
-- Unidad de procesamiento central
-- Comunicación
+La arquitectura del semáforo inteligente con interrupción por sensor es la siguiente:
+
+- **Entradas**: Dos (2) entradas digitales hacia el microcontrolador:
+  - `Pin 13` (ECHO): Señal de retorno del sensor ultrasónico HC-SR04. El microcontrolador mide con `pulseIn()` el tiempo del pulso de eco para calcular la distancia al objeto/peatón.
+  - `Pin 12` (BUTTON): Pulsador/botón de respaldo para activación manual del ciclo peatonal.
+- **Salidas**: Cinco (5) salidas digitales del microcontrolador:
+  - `Pin 7`: LED Rojo (estado de parada vehicular / cruce peatonal activo).
+  - `Pin 4`: LED Amarillo (estado de precaución / transición).
+  - `Pin 2`: LED Verde (estado de circulación vehicular / espera peatonal).
+  - `Pin 6`: Buzzer piezoeléctrico (señal sonora de cuenta regresiva para peatones con discapacidad visual).
+  - `Pin 10` (TRIGGER): Pulso de disparo del sensor ultrasónico HC-SR04 (señal de 10 µs enviada para iniciar la medición de distancia).
+- **Unidad de procesamiento central**: Arduino Uno R3 que en cada iteración del bucle principal envía el pulso TRIGGER, mide el tiempo del ECHO, calcula la distancia con la fórmula `(duration × 0.0343) / 2` (donde 0.0343 cm/µs es la velocidad del sonido a temperatura ambiente y la división entre 2 corrige el trayecto de ida y vuelta del pulso ultrasónico) y, si la distancia es ≤ 5 cm (umbral de demostración; en producción se recomienda 50–100 cm), invoca la rutina `allow_pedestrians()` para gestionar la secuencia de cambio de fases.
+- **Comunicación**: Puerto serial UART a 9600 baud (mediante `Serial.begin(9600)` y `Serial.println()`) utilizado para depuración en tiempo real de las lecturas del sensor ultrasónico. No se implementan protocolos de red ni comunicación con sistemas externos.
 
 ### Implementación del sistema empotrado
 
@@ -184,8 +229,6 @@ Ver video de prueba: [semaphore-interrupt-sensor.mp4](./media/semaphore-interrup
 
 ## Diferencias entre los 3 tipos de semaforo
 
-TODO: tabla comparativa de los 3 tipos de semaforo.
-
 Van a haber 3 niveles de puntos, segun colores:
 - 🔴 Rojo: es malo.
 - 🟡 Amarillo: es regular.
@@ -193,20 +236,20 @@ Van a haber 3 niveles de puntos, segun colores:
 
 | **Función / Atributo** | **Semáforo tiempo fijo** | **Semáforo con pulsador** | **Semáforo inteligente con sensores** |
 | --- | --- | --- | --- |
-| **Objetivo principal** | Coordinar flujo vehicular | TODO | TODO |
-| **Adaptabilidad a variaciones** | 🔴 Baja | TODO | TODO |
-| **Respuesta a picos de demanda** | 🔴 Mala | TODO | TODO |
-| **Necesidad de detección** | N/A | TODO | TODO |
-| **Complejidad de instalación** | 🟢 Baja | TODO | TODO |
-| **Costo inicial** | 🟢 Bajo | TODO | TODO |
-| **Costo de operación y mantenimiento** | 🟢 Bajo | TODO | TODO |
-| **Facilidad de programación** | 🟢 Fácil | TODO | TODO |
-| **Coordinación entre intersecciones** | 🟢 Buena | TODO | TODO |
-| **Impacto en demora promedio** | 🟡 Puede ser alto si mal dimensionado | TODO | TODO |
-| **Seguridad (colisiones en ángulo)** | 🟡 Buena si fases bien diseñadas | TODO | TODO |
-| **Consumo energético** | 🟢 Bajo | TODO | TODO |
-| **Mejor caso de uso** | Corredores con demanda estable | TODO | TODO |
-| **Limitaciones clave** | 🔴 Rigidez ante cambios | TODO | TODO |
+| **Objetivo principal** | Coordinar flujo vehicular | Permitir cruce peatonal seguro bajo demanda manual | Detectar peatones automáticamente y optimizar el cruce |
+| **Adaptabilidad a variaciones** | 🔴 Baja | 🟡 Media (responde a demanda puntual) | 🟢 Alta (detección continua en tiempo real) |
+| **Respuesta a picos de demanda** | 🔴 Mala | 🟡 Parcial (solo cuando el peatón pulsa) | 🟢 Buena (detección automática sin acción del usuario) |
+| **Necesidad de detección** | N/A | Botón pulsador manual (Pin 10) | Sensor ultrasónico HC-SR04 (Pins 10 y 13) + botón de respaldo (Pin 12) |
+| **Complejidad de instalación** | 🟢 Baja | 🟡 Media (botón + buzzer) | 🔴 Alta (sensor ultrasónico + buzzer + comunicación serial) |
+| **Costo inicial** | 🟢 Bajo | 🟡 Medio | 🔴 Alto |
+| **Costo de operación y mantenimiento** | 🟢 Bajo | 🟡 Bajo-Medio | 🔴 Alto (calibración y mantenimiento del sensor) |
+| **Facilidad de programación** | 🟢 Fácil | 🟡 Media | 🔴 Compleja (cálculo de distancia, umbral, depuración serial) |
+| **Coordinación entre intersecciones** | 🟢 Buena | 🔴 Baja / No implementada | 🟡 Posible mediante comunicación serial con sistema externo |
+| **Impacto en demora promedio** | 🟡 Puede ser alto si mal dimensionado | 🟡 Variable según frecuencia de uso | 🟢 Bajo (ciclo se activa solo cuando hay peatón) |
+| **Seguridad (colisiones en ángulo)** | 🟡 Buena si fases bien diseñadas | 🟢 Buena (ciclo seguro al activarse) | 🟢 Muy buena (detección automática reduce omisiones) |
+| **Consumo energético** | 🟢 Bajo | 🟡 Medio (buzzer activo durante ciclo) | 🔴 Alto (sensor disparando continuamente + serial activo) |
+| **Mejor caso de uso** | Corredores con demanda estable | Cruces peatonales con bajo tráfico peatonal | Cruces con alta densidad peatonal variable |
+| **Limitaciones clave** | 🔴 Rigidez ante cambios | 🔴 Requiere acción activa del peatón | 🔴 Costo, complejidad y riesgo de falsas detecciones |
 
 ---
 

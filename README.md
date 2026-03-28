@@ -25,19 +25,35 @@ Por ejemplo, está en rojo por 5 minutos antes de cambiar a verde por otros 5 mi
 
 > **En Semáforos de tiempo fijo:** Los semáforos de tiempo fijo se utilizan en aquellas intersecciones donde el comportamiento de tránsito es estable, es decir donde los flujos vehiculares se pueden adaptar a un programa de tiempos previsto, sin ocasionar demoras o congestionamiento excesivo. Los semáforos de tiempo fijo, se adaptan fácilmente a aquellas ocasiones en que queremos coordinar varias intersecciones a lo largo de un corredor vehicular [2].
 
-**Casos de uso:**
+Seguidamente se especifican los casos de uso, ventajas y desventajas de los semáforos de tiempo fijo segun [7]:
 
-**Ventajas:**
+**Casos de uso:**
+- Intersecciones aisladas con demanda estable; calles con flujos previsibles.
+- Corredores coordinados donde se busca progresión vehicular.
+- Zonas con infraestructura de detección limitada o sin detectores vehiculares.
+- Cruces peatonales con horarios fijos (zonas escolares, centros comerciales).
+- Entornos donde la seguridad prioriza ciclos constantes (reducción de conflictos en ángulos).
+
+**Ventajas :**
+- **Simplicidad de diseño**: fácil implementación; bajo costo de operación.
+- **Permite coordinación** entre intersecciones; mejora la fluidez en intersecciones con flujos vehiculares estables.
+- **Baja complejidad tecnológica**: no tiene sensores y no necesita mucha potencia del microcontrolador.
 
 **Desventajas:**
+- **No se adapta** a variaciones de demanda puede generar demoras innecesarias.
+- **Menor eficiencia** que sistemas actuados o inteligentes.
+- **Programación rígida** para cambios en los tiempos ante cambios en el flujo vehicular.
 
 ### Descripción de la arquitectura
 
-TODO: Indicar la arquitectura utilizada, incluyendo:
-- Entradas
-- Salidas
-- Unidad de procesamiento central
-- Comunicación
+La arquitectura implementada para este semáforo de tiempo fijo es la más sencilla de todas:
+- **Entradas**: Ninguna. El semáforo opera de manera autónoma utilizando temporizadores explícitos (`delay()`), sin entradas del entorno (lazo abierto).
+- **Salidas**: Tres (3) salidas digitales del microcontrolador hacia los leds de cada color del semaforo:
+  - `Pin 2`: LED Rojo (estado de parada).
+  - `Pin 4`: LED Amarillo (estado de precaución).
+  - `Pin 7`: LED Verde (estado de avance).
+- **Unidad de procesamiento central**: Arduino Uno R3 es el que ejecuta cíclicamente el bucle lógico configurando los pines de salida en HIGH y LOW mediante programación en Arduino IDE.
+- **Comunicación**: No se implementan protocolos de comunicación serial ni redes externas. El sistema solo depende de conexion a energia por cable o bateria.
 
 ### Implementación del sistema empotrado
 
@@ -57,8 +73,6 @@ Ver video de simulación en SimulIDE: [semaphore-fixed-time-simul.mp4](./media/s
 Código fuente: [semaphore-fixed-time.ino](./code/semaphore-fixed-time/semaphore-fixed-time.ino).
 
 Ver video de prueba: [semaphore-fixed-time.mp4](./media/semaphore-fixed-time.mp4).
-
-TODO: Proveer un esquemático con las conexiones realizadas.
 
 ---
 
@@ -173,14 +187,26 @@ Ver video de prueba: [semaphore-interrupt-sensor.mp4](./media/semaphore-interrup
 TODO: tabla comparativa de los 3 tipos de semaforo.
 
 Van a haber 3 niveles de puntos, segun colores:
-- Rojo: es malo o dificil.
-- Amarillo: es regular o intermedio.
-- Verde: es bueno o facil.
+- 🔴 Rojo: es malo.
+- 🟡 Amarillo: es regular.
+- 🟢 Verde: es bueno.
 
 | **Función / Atributo** | **Semáforo tiempo fijo** | **Semáforo con pulsador** | **Semáforo inteligente con sensores** |
 | --- | --- | --- | --- |
-| **Objetivo principal** | Coordinar flujo vehicular | Atender demanda peatonal puntual accionable | Atenter demanda peatonal por proximidad |
-
+| **Objetivo principal** | Coordinar flujo vehicular | TODO | TODO |
+| **Adaptabilidad a variaciones** | 🔴 Baja | TODO | TODO |
+| **Respuesta a picos de demanda** | 🔴 Mala | TODO | TODO |
+| **Necesidad de detección** | N/A | TODO | TODO |
+| **Complejidad de instalación** | 🟢 Baja | TODO | TODO |
+| **Costo inicial** | 🟢 Bajo | TODO | TODO |
+| **Costo de operación y mantenimiento** | 🟢 Bajo | TODO | TODO |
+| **Facilidad de programación** | 🟢 Fácil | TODO | TODO |
+| **Coordinación entre intersecciones** | 🟢 Buena | TODO | TODO |
+| **Impacto en demora promedio** | 🟡 Puede ser alto si mal dimensionado | TODO | TODO |
+| **Seguridad (colisiones en ángulo)** | 🟡 Buena si fases bien diseñadas | TODO | TODO |
+| **Consumo energético** | 🟢 Bajo | TODO | TODO |
+| **Mejor caso de uso** | Corredores con demanda estable | TODO | TODO |
+| **Limitaciones clave** | 🔴 Rigidez ante cambios | TODO | TODO |
 
 ---
 
@@ -201,4 +227,4 @@ Van a haber 3 niveles de puntos, segun colores:
 
 [6] arashjafari/audio-to-arduino. Disponible en: https://github.com/arashjafari/audio-to-arduino
 
-[7] https://bffrepositorio.unal.edu.co/server/api/core/bitstreams/3e7a306a-17c3-47db-9806-9525e2123f52/content
+[7] S. Cadavid Agudelo, “Criterios para justificar semáforos de tiempo fijo,” M.Sc. thesis, Escuela de Ingeniería Civil, Facultad de Minas, Universidad Nacional de Colombia, Medellín, Colombia, 2016. [En línea]. Disponible: https://bffrepositorio.unal.edu.co/server/api/core/bitstreams/3e7a306a-17c3-47db-9806-9525e2123f52/content
